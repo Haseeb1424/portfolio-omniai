@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<script src="./network-cursor.js"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #0d0d0f; color: #e8eaed; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #00e5ff; text-decoration: none; }
+  a:hover { color: #7df3ff; }
+  ::selection { background: rgba(0,229,255,.25); }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; overflow-x: clip;">
+  <nav style="position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 14px clamp(20px, 5vw, 64px); background: rgba(13,13,15,.72); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,.06);">
+    <a href="OmniAI Site.dc.html" style="display: flex; align-items: center; gap: 10px;">
+      <img src="uploads/team-omniai-logo-primary.png" alt="Team OmniAI logo" style="display: block; height: 42px; width: auto; max-width: 128px; object-fit: contain; filter: drop-shadow(0 0 10px rgba(0,229,255,.28));">
+    </a>
+    <div style="display: flex; align-items: center; gap: clamp(14px, 2.5vw, 28px); font-size: 14px; font-weight: 500;">
+      <a href="OmniAI Site.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">Home</a>
+      <a href="Services.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">Services</a>
+      <a href="Work.dc.html" style="color: #ffffff;">Work</a>
+      <a href="About.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">About</a>
+      <a href="Pricing.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">Pricing</a>
+      <a href="Contact.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">Contact</a>
+      <a href="Contact.dc.html" style="padding: 9px 18px; border-radius: 8px; background: #00e5ff; color: #06171a; font-weight: 600; box-shadow: 0 0 18px rgba(0,229,255,.35);" style-hover="background: #4deeff; color: #06171a;">Free Audit</a>
+    </div>
+  </nav>
+
+  <header style="position: relative; padding: clamp(70px, 11vh, 120px) clamp(20px, 5vw, 64px) clamp(50px, 8vh, 90px); text-align: center;">
+    <div style="position: absolute; left: 50%; top: 0; width: 560px; height: 420px; transform: translateX(-50%); background: radial-gradient(circle, rgba(0,229,255,.09) 0%, transparent 65%); pointer-events: none;"></div>
+    <div style="position: relative; max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; align-items: center;">
+      <h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(34px, 5.4vw, 60px); line-height: 1.08; letter-spacing: -.025em; color: #ffffff;">Problems <span style="color: #00e5ff; text-shadow: 0 0 32px rgba(0,229,255,.45);">we've solved.</span></h1>
+      <p style="margin: 0; max-width: 580px; font-size: clamp(16px, 2vw, 18px); line-height: 1.6; color: #a7adb6;">Every project starts as a diagnosis. Here's what happened after.</p>
+    </div>
+  </header>
+
+  <div style="max-width: 1160px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 64px) clamp(70px, 10vh, 120px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr)); gap: 28px;">
+    <sc-for list="{{ cases }}" as="c" hint-placeholder-count="6">
+      <a href="{{ c.href }}" style="display: flex; flex-direction: column; border-radius: 18px; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07); backdrop-filter: blur(8px); overflow: hidden; transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; color: inherit;" style-hover="transform: translateY(-6px); border-color: rgba(0,229,255,.5); box-shadow: 0 12px 44px rgba(0,229,255,.14); color: inherit;">
+        <div style="position: relative; aspect-ratio: 16 / 10; background: linear-gradient(160deg, rgba(0,229,255,.06), rgba(255,255,255,.02));">
+          <image-slot id="{{ c.slot }}" shape="rect" placeholder="{{ c.placeholder }}"></image-slot>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px; padding: 24px 26px 26px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+            <span style="padding: 4px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.14); font-size: 11px; letter-spacing: .08em; font-weight: 600; color: #9aa0a8;">{{ c.industry }}</span>
+            <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; color: #00e5ff; text-shadow: 0 0 20px rgba(0,229,255,.4); white-space: nowrap;">{{ c.metric }}</span>
+          </div>
+          <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -.015em; color: #ffffff;">{{ c.title }}</h2>
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.55; color: #a7adb6;">{{ c.problem }}</p>
+          <span style="margin-top: 6px; font-size: 13.5px; font-weight: 600; color: #6ee7f5;">View case study →</span>
+        </div>
+      </a>
+    </sc-for>
+  </div>
+
+  <footer style="border-top: 1px solid rgba(255,255,255,.07); padding: 44px clamp(20px, 5vw, 64px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; max-width: 1160px; margin: 0 auto; box-sizing: border-box;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <img src="uploads/team-omniai-logo-primary.png" alt="Team OmniAI logo" style="display: block; height: 34px; width: auto; max-width: 104px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(0,229,255,.24));">
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; font-size: 13.5px;">
+      <a href="Services.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">Services</a>
+      <a href="Work.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">Work</a>
+      <a href="About.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">About</a>
+      <a href="Pricing.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">Pricing</a>
+      <a href="Contact.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">Contact</a>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; color: #8b9098; text-align: right;">
+      <a href="mailto:teamomniai16@gmail.com">teamomniai16@gmail.com</a>
+      <span>Based in Lahore, serving clients worldwide.</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      cases: [
+        { slot: "work-cover-1", placeholder: "Drop project-1 cover (16:10)", href: "Case Study - Ecommerce.dc.html", industry: "E-COMMERCE", metric: "+38% conversion", title: "Checkout that stopped leaking sales", problem: "Steady ad traffic, checkout conversion stuck under 1%." },
+        { slot: "work-cover-2", placeholder: "Drop project-2 cover (16:10)", href: "Case Study - Ecommerce.dc.html", industry: "LOGISTICS", metric: "30 hrs/wk saved", title: "Dispatch without the spreadsheets", problem: "Operations ran on five spreadsheets and group chats." },
+        { slot: "work-cover-3", placeholder: "Drop project-3 cover (16:10)", href: "Case Study - Ecommerce.dc.html", industry: "SAAS", metric: "4× faster replies", title: "AI support that customers trust", problem: "Support team drowning in repeat questions across time zones." },
+        { slot: "work-cover-4", placeholder: "Drop project-4 cover (16:10)", href: "Case Study - Ecommerce.dc.html", industry: "HEALTHCARE", metric: "12 hrs/wk saved", title: "Patient intake on autopilot", problem: "Clinic staff re-entering the same data into three systems." },
+        { slot: "work-cover-5", placeholder: "Drop project-5 cover (16:10)", href: "Case Study - Ecommerce.dc.html", industry: "RETAIL", metric: "2.3× ROAS", title: "UGC ads that finally scaled", problem: "Paid ads spending more each month for flatter returns." },
+        { slot: "work-cover-6", placeholder: "Drop project-6 cover (16:10)", href: "Case Study - Ecommerce.dc.html", industry: "FINTECH", metric: "99.9% uptime", title: "An API enterprise clients trust", problem: "A legacy API failing under load, scaring off enterprise deals." },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

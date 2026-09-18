@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="./network-cursor.js"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #0d0d0f; color: #e8eaed; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #00e5ff; text-decoration: none; }
+  a:hover { color: #7df3ff; }
+  ::selection { background: rgba(0,229,255,.25); }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; overflow-x: clip;">
+  <nav style="position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 14px clamp(20px, 5vw, 64px); background: rgba(13,13,15,.72); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,.06);">
+    <a href="OmniAI Site.dc.html" style="display: flex; align-items: center; gap: 10px;">
+      <img src="uploads/team-omniai-logo-primary.png" alt="Team OmniAI logo" style="display: block; height: 42px; width: auto; max-width: 128px; object-fit: contain; filter: drop-shadow(0 0 10px rgba(0,229,255,.28));">
+    </a>
+    <div style="display: flex; align-items: center; gap: clamp(14px, 2.5vw, 28px); font-size: 14px; font-weight: 500;">
+      <a href="OmniAI Site.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">Home</a>
+      <a href="Services.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">Services</a>
+      <a href="Work.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">Work</a>
+      <a href="About.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">About</a>
+      <a href="Pricing.dc.html" style="color: #ffffff;">Pricing</a>
+      <a href="Contact.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">Contact</a>
+      <a href="Contact.dc.html" style="padding: 9px 18px; border-radius: 8px; background: #00e5ff; color: #06171a; font-weight: 600; box-shadow: 0 0 18px rgba(0,229,255,.35);" style-hover="background: #4deeff; color: #06171a;">Free Audit</a>
+    </div>
+  </nav>
+
+  <header style="position: relative; padding: clamp(70px, 11vh, 120px) clamp(20px, 5vw, 64px) clamp(50px, 8vh, 90px); text-align: center;">
+    <div style="position: absolute; left: 50%; top: 0; width: 560px; height: 420px; transform: translateX(-50%); background: radial-gradient(circle, rgba(0,229,255,.09) 0%, transparent 65%); pointer-events: none;"></div>
+    <div style="position: relative; max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; align-items: center;">
+      <h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(34px, 5.4vw, 60px); line-height: 1.08; letter-spacing: -.025em; color: #ffffff;">Pricing that matches <span style="color: #00e5ff; text-shadow: 0 0 32px rgba(0,229,255,.45);">the problem.</span></h1>
+      <p style="margin: 0; max-width: 580px; font-size: clamp(16px, 2vw, 18px); line-height: 1.6; color: #a7adb6;">One-off fix, full build, or ongoing partner — you pay for the size of the problem, not the size of the agency.</p>
+    </div>
+  </header>
+
+  <div style="max-width: 1100px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 64px); display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 22px; align-items: stretch;">
+    <sc-for list="{{ tiers }}" as="t" hint-placeholder-count="3">
+      <div style="position: relative; padding: 34px 30px; border-radius: 18px; background: rgba(255,255,255,.03); backdrop-filter: blur(8px); border: 1px solid {{ t.border }}; box-shadow: {{ t.shadow }}; display: flex; flex-direction: column; gap: 18px;">
+        <sc-if value="{{ t.popular }}" hint-placeholder-val="{{ false }}">
+          <span style="position: absolute; top: -13px; left: 50%; transform: translateX(-50%); padding: 5px 16px; border-radius: 999px; background: #00e5ff; color: #06171a; font-size: 12px; font-weight: 700; letter-spacing: .05em; white-space: nowrap;">MOST POPULAR</span>
+        </sc-if>
+        <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; color: #ffffff;">{{ t.name }}</h2>
+        <p style="margin: 0; font-size: 14.5px; line-height: 1.6; color: #a7adb6; min-height: 46px;">{{ t.desc }}</p>
+        <div>
+          <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 30px; color: #00e5ff;">{{ t.price }}</div>
+          <div style="font-size: 13px; color: #6a7078; margin-top: 2px;">{{ t.priceNote }}</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 11px; flex: 1;">
+          <sc-for list="{{ t.items }}" as="it" hint-placeholder-count="5">
+            <div style="display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; line-height: 1.5; color: #c8ccd2;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 3px;"><path d="M20 6L9 17l-5-5"></path></svg>
+              <span>{{ it }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <a href="Contact.dc.html" style="text-align: center; padding: 13px 24px; border-radius: 10px; font-weight: 600; font-size: 15px; background: {{ t.btnBg }}; color: {{ t.btnColor }}; border: 1px solid {{ t.btnBorder }}; box-shadow: {{ t.btnShadow }};" style-hover="filter: brightness(1.15);">{{ t.btnLabel }}</a>
+      </div>
+    </sc-for>
+  </div>
+
+  <section style="max-width: 760px; margin: 0 auto; padding: clamp(64px, 9vh, 100px) clamp(20px, 5vw, 64px) clamp(70px, 10vh, 110px);">
+    <h2 style="margin: 0 0 30px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(24px, 3.4vw, 34px); letter-spacing: -.02em; color: #ffffff; text-align: center;">Questions people ask.</h2>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="4">
+        <div style="border: 1px solid rgba(255,255,255,.08); border-radius: 14px; background: rgba(255,255,255,.02); overflow: hidden;">
+          <button onClick="{{ q.toggle }}" style="width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; background: none; border: none; cursor: pointer; text-align: left; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; color: #ffffff;">
+            <span>{{ q.q }}</span>
+            <span style="color: #00e5ff; font-size: 20px; font-weight: 400; flex-shrink: 0;">{{ q.mark }}</span>
+          </button>
+          <sc-if value="{{ q.open }}" hint-placeholder-val="{{ false }}">
+            <p style="margin: 0; padding: 0 22px 20px; font-size: 14.5px; line-height: 1.65; color: #a7adb6;">{{ q.a }}</p>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+    <p style="margin: 34px 0 0; text-align: center; font-size: 15px; color: #7df3ff;">Every engagement starts with a free 20-minute problem audit — no commitment.</p>
+  </section>
+
+  <footer style="border-top: 1px solid rgba(255,255,255,.07); padding: 44px clamp(20px, 5vw, 64px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; max-width: 1160px; margin: 0 auto; box-sizing: border-box;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <img src="uploads/team-omniai-logo-primary.png" alt="Team OmniAI logo" style="display: block; height: 34px; width: auto; max-width: 104px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(0,229,255,.24));">
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; font-size: 13.5px;">
+      <a href="Services.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">Services</a>
+      <a href="Work.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">Work</a>
+      <a href="About.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">About</a>
+      <a href="Pricing.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">Pricing</a>
+      <a href="Contact.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">Contact</a>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; color: #8b9098; text-align: right;">
+      <a href="mailto:teamomniai16@gmail.com">teamomniai16@gmail.com</a>
+      <span>Based in Lahore, serving clients worldwide.</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { open: 0 };
+  renderVals() {
+    const faqs = [
+      { q: "How do you scope projects?", a: "Every project starts with the free audit call, then a short paid or free diagnosis depending on complexity. You get a written scope with deliverables, timeline, and a fixed price before any build work starts — no open-ended hourly billing." },
+      { q: "What if I don't know what I need?", a: "That's the most common starting point, and exactly what the audit is for. Describe the symptom — 'sales are flat', 'ops are chaos' — and we'll identify the likely causes and what we'd investigate first. You leave the call with clarity even if you never hire us." },
+      { q: "Do you work with our existing team?", a: "Yes. We regularly embed alongside in-house developers, designers, and marketers — filling gaps rather than replacing people. We document everything so your team owns the result." },
+      { q: "What's the audit call?", a: "A free 20-minute video call where you describe the problem and we tell you honestly what we'd look at, what it might cost, and whether we're the right fit. No slides, no pitch deck, no obligation." },
+    ];
+    return {
+      tiers: [
+        { name: "Fix", popular: false, desc: "For a single, well-defined problem — a landing page that won't convert, one automation, one integration.", price: "Starting at $2,500", priceNote: "One-time project pricing", border: "rgba(255,255,255,.09)", shadow: "none", btnBg: "rgba(0,229,255,.05)", btnColor: "#00e5ff", btnBorder: "rgba(0,229,255,.45)", btnShadow: "none", btnLabel: "Start with a Fix",
+          items: ["One clearly scoped problem", "Fixed price, fixed timeline", "Senior engineer or designer on the work", "Handover docs included", "30 days of post-launch support"] },
+        { name: "Build", popular: true, desc: "A full product or system build — web app, AI system, e-commerce platform — scoped after your free audit.", price: "Custom quote", priceNote: "Scoped after the free audit", border: "rgba(0,229,255,.55)", shadow: "0 0 40px rgba(0,229,255,.15)", btnBg: "#00e5ff", btnColor: "#06171a", btnBorder: "transparent", btnShadow: "0 0 24px rgba(0,229,255,.4)", btnLabel: "Book the Free Audit",
+          items: ["Full diagnosis before we build", "Cross-functional team: AI, dev, design", "Weekly demos, no surprises", "Launch support and training", "You own all code and assets"] },
+        { name: "Grow", popular: false, desc: "An ongoing partnership — continuous development, marketing, and optimization as your embedded team.", price: "Monthly retainer", priceNote: "From $4,000/month, cancel anytime", border: "rgba(255,255,255,.09)", shadow: "none", btnBg: "rgba(0,229,255,.05)", btnColor: "#00e5ff", btnBorder: "rgba(0,229,255,.45)", btnShadow: "none", btnLabel: "Talk About Growth",
+          items: ["Dedicated team hours each month", "Development + marketing in one retainer", "Monthly reporting against your goals", "Priority response times", "Quarterly strategy reviews"] },
+      ],
+      faqs: faqs.map((f, i) => ({
+        ...f,
+        open: this.state.open === i,
+        mark: this.state.open === i ? "−" : "+",
+        toggle: () => this.setState(s => ({ open: s.open === i ? -1 : i })),
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>

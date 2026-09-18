@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<script src="./network-cursor.js"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #0d0d0f; color: #e8eaed; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #00e5ff; text-decoration: none; }
+  a:hover { color: #7df3ff; }
+  ::selection { background: rgba(0,229,255,.25); }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; overflow-x: clip;">
+  <nav style="position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 14px clamp(20px, 5vw, 64px); background: rgba(13,13,15,.72); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,.06);">
+    <a href="OmniAI Site.dc.html" style="display: flex; align-items: center; gap: 10px;">
+      <img src="uploads/team-omniai-logo-primary.png" alt="Team OmniAI logo" style="display: block; height: 42px; width: auto; max-width: 128px; object-fit: contain; filter: drop-shadow(0 0 10px rgba(0,229,255,.28));">
+    </a>
+    <div style="display: flex; align-items: center; gap: clamp(14px, 2.5vw, 28px); font-size: 14px; font-weight: 500;">
+      <a href="OmniAI Site.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">Home</a>
+      <a href="Services.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">Services</a>
+      <a href="Work.dc.html" style="color: #ffffff;">Work</a>
+      <a href="About.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">About</a>
+      <a href="Pricing.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">Pricing</a>
+      <a href="Contact.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">Contact</a>
+      <a href="Contact.dc.html" style="padding: 9px 18px; border-radius: 8px; background: #00e5ff; color: #06171a; font-weight: 600; box-shadow: 0 0 18px rgba(0,229,255,.35);" style-hover="background: #4deeff; color: #06171a;">Free Audit</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header data-screen-label="CS Hero" style="position: relative; padding: clamp(56px, 9vh, 100px) clamp(20px, 5vw, 64px) 0;">
+    <div style="position: absolute; left: 50%; top: 0; width: 640px; height: 460px; transform: translateX(-50%); background: radial-gradient(circle, rgba(0,229,255,.09) 0%, transparent 65%); pointer-events: none;"></div>
+    <div style="position: relative; max-width: 1060px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; align-items: center; text-align: center;">
+      <a href="Work.dc.html" style="font-size: 13.5px; font-weight: 600; color: #6ee7f5;">← All case studies</a>
+      <span style="padding: 5px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.14); font-size: 11.5px; letter-spacing: .1em; font-weight: 600; color: #9aa0a8;">E-COMMERCE</span>
+      <h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(32px, 5vw, 56px); line-height: 1.08; letter-spacing: -.025em; color: #ffffff; text-wrap: balance;">Checkout that stopped <span style="color: #00e5ff; text-shadow: 0 0 32px rgba(0,229,255,.45);">leaking sales.</span></h1>
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(24px, 5vw, 64px); padding: 18px 32px; border-radius: 14px; border: 1px solid rgba(0,229,255,.2); background: rgba(0,229,255,.04);">
+        <sc-for list="{{ heroStats }}" as="st" hint-placeholder-count="3">
+          <div style="text-align: center;">
+            <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(24px, 3vw, 32px); color: #00e5ff; text-shadow: 0 0 22px rgba(0,229,255,.4);">{{ st.v }}</div>
+            <div style="font-size: 12.5px; letter-spacing: .06em; color: #8b9098; font-weight: 500; margin-top: 2px;">{{ st.l }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <!-- Full-width cover in browser frame -->
+      <div style="width: 100%; border-radius: 16px 16px 0 0; border: 1px solid rgba(255,255,255,.1); border-bottom: none; background: rgba(255,255,255,.04); overflow: hidden; box-shadow: 0 -20px 80px rgba(0,229,255,.08);">
+        <div style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,.07);">
+          <span style="width: 11px; height: 11px; border-radius: 50%; background: rgba(255,255,255,.14);"></span><span style="width: 11px; height: 11px; border-radius: 50%; background: rgba(255,255,255,.14);"></span><span style="width: 11px; height: 11px; border-radius: 50%; background: rgba(255,255,255,.14);"></span>
+          <span style="flex: 1; margin-left: 12px; padding: 5px 14px; border-radius: 7px; background: rgba(255,255,255,.05); font-size: 12px; color: #6a7078; text-align: left;">store.example.com/checkout</span>
+        </div>
+        <div style="aspect-ratio: 16 / 10; background: linear-gradient(160deg, rgba(0,229,255,.05), rgba(255,255,255,.02));">
+          <image-slot id="cs1-cover" shape="rect" placeholder="Drop cover screen — assets/work/project-1-cover.png (16:10)"></image-slot>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Overview strip -->
+  <section data-screen-label="CS Overview" style="border-top: 1px solid rgba(0,229,255,.25); border-bottom: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.02);">
+    <div style="max-width: 1060px; margin: 0 auto; padding: 28px clamp(20px, 5vw, 64px); display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 24px;">
+      <div><div style="font-size: 11.5px; letter-spacing: .1em; font-weight: 600; color: #6a7078; margin-bottom: 6px;">CLIENT</div><div style="font-size: 15px; font-weight: 600; color: #dfe2e6;">Aurel Home Goods</div></div>
+      <div><div style="font-size: 11.5px; letter-spacing: .1em; font-weight: 600; color: #6a7078; margin-bottom: 6px;">INDUSTRY</div><div style="font-size: 15px; font-weight: 600; color: #dfe2e6;">E-commerce / D2C</div></div>
+      <div><div style="font-size: 11.5px; letter-spacing: .1em; font-weight: 600; color: #6a7078; margin-bottom: 6px;">TIMELINE</div><div style="font-size: 15px; font-weight: 600; color: #dfe2e6;">8 weeks</div></div>
+      <div>
+        <div style="font-size: 11.5px; letter-spacing: .1em; font-weight: 600; color: #6a7078; margin-bottom: 6px;">SERVICES</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+          <sc-for list="{{ servicesUsed }}" as="ch" hint-placeholder-count="3">
+            <span style="padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(0,229,255,.25); background: rgba(0,229,255,.05); font-size: 11.5px; font-weight: 500; color: #7df3ff;">{{ ch }}</span>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Problem -->
+  <section data-screen-label="CS Problem" style="max-width: 1060px; margin: 0 auto; padding: clamp(56px, 8vh, 90px) clamp(20px, 5vw, 64px); display: flex; flex-wrap: wrap; align-items: center; gap: clamp(28px, 4vw, 56px);">
+    <div style="flex: 1 1 340px; display: flex; flex-direction: column; gap: 16px;">
+      <span style="font-size: 12px; letter-spacing: .12em; font-weight: 600; color: #6ee7f5;">THE PROBLEM</span>
+      <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(24px, 3vw, 32px); letter-spacing: -.02em; color: #ffffff;">Traffic wasn't the problem. The last three clicks were.</h2>
+      <p style="margin: 0; font-size: 15.5px; line-height: 1.7; color: #b9bec6;">Aurel was spending $40k/month on ads with conversion stuck under 1%. Session recordings showed the same story on repeat: shoppers reached checkout, saw shipping costs for the first time, and left. The five-step checkout asked for account creation before payment, and on mobile — 70% of traffic — the form was a wall.</p>
+    </div>
+    <div style="flex: 1 1 340px; border-radius: 14px; border: 1px solid rgba(255,255,255,.1); overflow: hidden;">
+      <div style="padding: 9px 14px; border-bottom: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.03); font-size: 11.5px; letter-spacing: .08em; font-weight: 600; color: #6a7078;">BEFORE</div>
+      <div style="aspect-ratio: 16 / 10; background: linear-gradient(160deg, rgba(255,255,255,.03), rgba(255,255,255,.01));">
+        <image-slot id="cs1-before" shape="rect" placeholder="Drop 'before' screenshot (16:10)"></image-slot>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Solution -->
+  <section data-screen-label="CS Solution" style="border-top: 1px solid rgba(255,255,255,.07); background: linear-gradient(180deg, rgba(0,229,255,.02), transparent);">
+    <div style="max-width: 1060px; margin: 0 auto; padding: clamp(56px, 8vh, 90px) clamp(20px, 5vw, 64px); display: flex; flex-direction: column; gap: clamp(48px, 7vh, 80px);">
+      <div style="max-width: 620px; display: flex; flex-direction: column; gap: 16px;">
+        <span style="font-size: 12px; letter-spacing: .12em; font-weight: 600; color: #6ee7f5;">THE SOLUTION</span>
+        <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(24px, 3vw, 32px); letter-spacing: -.02em; color: #ffffff;">One page. Costs up front. Help where people hesitate.</h2>
+        <p style="margin: 0; font-size: 15.5px; line-height: 1.7; color: #b9bec6;">We collapsed five steps into one page, surfaced shipping costs on the product page itself, made guest checkout the default, and added an AI sizing assistant at the exact moment size doubt caused exits.</p>
+      </div>
+
+      <!-- Desktop screens -->
+      <div style="display: flex; flex-direction: column; gap: 18px;">
+        <h3 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; color: #ffffff;">The new checkout, desktop</h3>
+        <p style="margin: 0; max-width: 620px; font-size: 14.5px; line-height: 1.65; color: #a7adb6;">Shipping, taxes, and delivery date visible before a single field is filled. Every removed field was a measured decision — we A/B tested the form down to seven inputs.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 20px;">
+          <sc-for list="{{ desktopShots }}" as="d" hint-placeholder-count="2">
+            <div style="border-radius: 14px; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.03); overflow: hidden;">
+              <div style="display: flex; align-items: center; gap: 7px; padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,.07);">
+                <span style="width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.14);"></span><span style="width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.14);"></span><span style="width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.14);"></span>
+              </div>
+              <div style="aspect-ratio: 16 / 10; background: linear-gradient(160deg, rgba(0,229,255,.04), rgba(255,255,255,.01));">
+                <image-slot id="{{ d.slot }}" shape="rect" placeholder="{{ d.placeholder }}"></image-slot>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- Mobile screens -->
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: clamp(28px, 4vw, 56px); flex-direction: row-reverse;">
+        <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 14px;">
+          <h3 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; color: #ffffff;">Mobile first, since 70% of buyers are</h3>
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.65; color: #a7adb6;">Thumb-reach payment buttons, autofilled address lookup, and Apple Pay / Google Pay as the first option — not buried under a card form. The AI sizing assistant lives in a sheet, one tap away on every product.</p>
+        </div>
+        <div style="flex: 1 1 380px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+          <sc-for list="{{ mobileShots }}" as="m" hint-placeholder-count="3">
+            <div style="width: clamp(130px, 16vw, 170px); border-radius: 26px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.04); padding: 8px; box-shadow: 0 8px 34px rgba(0,0,0,.4);">
+              <div style="aspect-ratio: 9 / 19.5; border-radius: 19px; overflow: hidden; background: linear-gradient(170deg, rgba(0,229,255,.05), rgba(255,255,255,.01)); position: relative;">
+                <image-slot id="{{ m.slot }}" shape="rect" placeholder="{{ m.placeholder }}"></image-slot>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- Wide collage -->
+      <div style="display: flex; flex-direction: column; gap: 18px;">
+        <h3 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 19px; color: #ffffff;">The full system</h3>
+        <div style="border-radius: 16px; border: 1px solid rgba(0,229,255,.2); overflow: hidden; box-shadow: 0 0 60px rgba(0,229,255,.08);">
+          <div style="aspect-ratio: 21 / 9; background: linear-gradient(160deg, rgba(0,229,255,.05), rgba(255,255,255,.02));">
+            <image-slot id="cs1-collage" shape="rect" placeholder="Drop wide screen collage — assets/work/project-1-collage.png (21:9)"></image-slot>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Result -->
+  <section data-screen-label="CS Result" style="border-top: 1px solid rgba(255,255,255,.07); background: radial-gradient(ellipse 70% 100% at 50% 0%, rgba(0,229,255,.07), transparent);">
+    <div style="max-width: 860px; margin: 0 auto; padding: clamp(56px, 9vh, 100px) clamp(20px, 5vw, 64px); text-align: center; display: flex; flex-direction: column; gap: 30px; align-items: center;">
+      <span style="font-size: 12px; letter-spacing: .12em; font-weight: 600; color: #6ee7f5;">THE RESULT</span>
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(32px, 6vw, 72px);">
+        <sc-for list="{{ resultStats }}" as="r" hint-placeholder-count="3">
+          <div>
+            <div style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(40px, 6vw, 64px); color: #00e5ff; text-shadow: 0 0 40px rgba(0,229,255,.45); line-height: 1;">{{ r.v }}</div>
+            <div style="font-size: 13.5px; color: #8b9098; font-weight: 500; margin-top: 8px;">{{ r.l }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <p style="margin: 0; max-width: 620px; font-size: 16px; line-height: 1.7; color: #b9bec6;">Conversion climbed from 0.9% to 1.24% within eight weeks of launch — on identical ad spend. Cart abandonment fell by a third, and the sizing assistant cut size-related returns 24%, paying for the whole project inside a quarter.</p>
+    </div>
+  </section>
+
+  <!-- Next project / CTA -->
+  <section data-screen-label="CS Next" style="border-top: 1px solid rgba(255,255,255,.07);">
+    <div style="max-width: 1060px; margin: 0 auto; padding: clamp(48px, 7vh, 80px) clamp(20px, 5vw, 64px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 28px;">
+      <a href="Work.dc.html" style="display: flex; flex-direction: column; gap: 6px; color: inherit;" style-hover="color: inherit;">
+        <span style="font-size: 12px; letter-spacing: .1em; font-weight: 600; color: #6a7078;">NEXT PROJECT</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(20px, 2.6vw, 28px); color: #ffffff;">Dispatch without the spreadsheets <span style="color: #00e5ff;">→</span></span>
+      </a>
+      <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px;">
+        <span style="font-size: 15px; color: #a7adb6;">Have a similar problem?</span>
+        <a href="Contact.dc.html" style="padding: 13px 26px; border-radius: 10px; background: #00e5ff; color: #06171a; font-weight: 600; font-size: 15px; box-shadow: 0 0 26px rgba(0,229,255,.4);" style-hover="background: #4deeff; color: #06171a;">Book a Free Audit</a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="border-top: 1px solid rgba(255,255,255,.07); padding: 44px clamp(20px, 5vw, 64px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; max-width: 1160px; margin: 0 auto; box-sizing: border-box;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <img src="uploads/team-omniai-logo-primary.png" alt="Team OmniAI logo" style="display: block; height: 34px; width: auto; max-width: 104px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(0,229,255,.24));">
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; font-size: 13.5px;">
+      <a href="Services.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">Services</a>
+      <a href="Work.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">Work</a>
+      <a href="About.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">About</a>
+      <a href="Pricing.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">Pricing</a>
+      <a href="Contact.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">Contact</a>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; color: #8b9098; text-align: right;">
+      <a href="mailto:teamomniai16@gmail.com">teamomniai16@gmail.com</a>
+      <span>Based in Lahore, serving clients worldwide.</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      heroStats: [
+        { v: "+38%", l: "conversion rate" },
+        { v: "8 weeks", l: "diagnosis to launch" },
+        { v: "Same", l: "ad spend" },
+      ],
+      servicesUsed: ["UI/UX Design", "Frontend Development", "AI & Automation"],
+      desktopShots: [
+        { slot: "cs1-desktop-1", placeholder: "Drop desktop screen 1 — assets/work/project-1-desktop-1.png (16:10)" },
+        { slot: "cs1-desktop-2", placeholder: "Drop desktop screen 2 — assets/work/project-1-desktop-2.png (16:10)" },
+      ],
+      mobileShots: [
+        { slot: "cs1-mobile-1", placeholder: "Mobile 1 (9:19.5)" },
+        { slot: "cs1-mobile-2", placeholder: "Mobile 2 (9:19.5)" },
+        { slot: "cs1-mobile-3", placeholder: "Mobile 3 (9:19.5)" },
+      ],
+      resultStats: [
+        { v: "+38%", l: "conversion rate" },
+        { v: "−33%", l: "cart abandonment" },
+        { v: "−24%", l: "size-related returns" },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

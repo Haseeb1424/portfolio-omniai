@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<script src="./network-cursor.js"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #0d0d0f; color: #e8eaed; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #01FBFF; text-decoration: none; }
+  a:hover { color: #6FFFFF; }
+  ::selection { background: rgba(1,251,255,.25); }
+  input, textarea { font-family: 'Inter', sans-serif; }
+  input::placeholder, textarea::placeholder { color: #5c6066; }
+  @keyframes floatGlow { 0%,100% { opacity: .55; } 50% { opacity: .95; } }
+  @keyframes modalFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes modalLiftIn { from { opacity: 0; transform: translateY(18px) scale(.98); } to { opacity: 1; transform: none; } }
+  @keyframes processMockupFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  @keyframes processScan { 0% { transform: translateX(-48%); opacity: 0; } 16%,68% { opacity: .8; } 100% { transform: translateX(118%); opacity: 0; } }
+  @keyframes processPanelPulse { 0%,100% { opacity: .7; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-5px); } }
+  @keyframes processLineFill { 0%,100% { opacity: .72; transform: scaleX(.96); } 50% { opacity: 1; transform: scaleX(1); } }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; overflow-x: clip;">
+
+  <!-- Sticky nav -->
+  <nav style="position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 14px clamp(20px, 5vw, 64px); background: rgba(13,13,15,.72); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,.06);">
+    <a href="#top" style="display: flex; align-items: center; gap: 10px;">
+      <img src="uploads/team-omniai-logo-primary.png" alt="Team OmniAI logo" style="display: block; height: 42px; width: auto; max-width: 128px; object-fit: contain; filter: drop-shadow(0 0 10px rgba(1,251,255,.28));">
+    </a>
+    <div style="display: flex; align-items: center; gap: clamp(14px, 2.5vw, 28px); font-size: 14px; font-weight: 500;">
+      <a href="Services.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">Services</a>
+      <a href="Work.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">Work</a>
+      <a href="About.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">About</a>
+      <a href="Pricing.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">Pricing</a>
+      <a href="Contact.dc.html" style="color: #b9bec6;" style-hover="color: #ffffff;">Contact</a>
+      <a href="Contact.dc.html" onClick="{{ openAuditModal }}" style="padding: 9px 18px; border-radius: 8px; background: #01FBFF; color: #06171a; font-weight: 600; box-shadow: 0 0 18px rgba(1,251,255,.35);" style-hover="background: #6FFFFF; color: #06171a;">Free Audit</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header id="top" ref="{{ heroSectionRef }}" style="position: relative; min-height: 220vh; background: radial-gradient(ellipse 80% 70% at 50% 42%, rgba(1,251,255,.08), transparent 58%), #060708; overflow: clip;">
+    <div style="position: sticky; top: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: clamp(70px, 10vh, 104px) clamp(20px, 5vw, 64px) clamp(44px, 7vh, 74px); box-sizing: border-box; overflow: hidden;">
+      <canvas ref="{{ heroCanvas }}" role="img" aria-label="Interactive Team OmniAI node logo" style="position: absolute; inset: 0; width: 100%; height: 100%; cursor: crosshair;"></canvas>
+      <div style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 90% 75% at 50% 45%, transparent 34%, rgba(6,7,8,.68) 78%), linear-gradient(180deg, rgba(6,7,8,.35), rgba(6,7,8,0) 40%, rgba(6,7,8,.38));"></div>
+      <div ref="{{ heroCopyRef }}" style="position: relative; z-index: 2; width: 100%; max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; pointer-events: none; transition: opacity .16s linear, transform .16s linear;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: clamp(28px, 7vh, 78px); font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .32em; color: rgba(255,255,255,.78); text-transform: uppercase;">
+          <span style="width: 38px; height: 1px; background: rgba(1,251,255,.65); box-shadow: 0 0 18px rgba(1,251,255,.42);"></span>
+          <span>AI &middot; Engineering &middot; Design &middot; Marketing</span>
+          <span style="width: 38px; height: 1px; background: rgba(1,251,255,.65); box-shadow: 0 0 18px rgba(1,251,255,.42);"></span>
+        </div>
+        <h1 style="margin: 0; width: 100%; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(58px, 12.6vw, 180px); line-height: .86; letter-spacing: 0; color: rgba(255,255,255,.58); text-transform: uppercase; text-wrap: balance; mix-blend-mode: screen;">Team OmniAI</h1>
+        <p style="margin: clamp(18px, 3vw, 28px) 0 0; max-width: 760px; font-size: clamp(20px, 3vw, 34px); line-height: 1.16; font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #ffffff; text-wrap: balance;">Stuck? We find the problem. Then we <span style="color: #01FBFF; text-shadow: 0 0 34px rgba(1,251,255,.46);">build the fix.</span></p>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 30px; pointer-events: auto;">
+          <a href="Contact.dc.html" onClick="{{ openAuditModal }}" style="padding: 15px 30px; border-radius: 10px; background: #01FBFF; color: #06171a; font-weight: 700; font-size: 16px; box-shadow: 0 0 34px rgba(1,251,255,.36); font-family: 'Space Grotesk', sans-serif;" style-hover="background: #6FFFFF; transform: translateY(-2px); color: #06171a;">Get a Free Problem Audit</a>
+          <a href="Work.dc.html" style="padding: 15px 30px; border-radius: 10px; border: 1px solid rgba(255,255,255,.18); color: #e8eaed; font-weight: 700; font-size: 16px; background: rgba(255,255,255,.02); font-family: 'Space Grotesk', sans-serif;" style-hover="border-color: rgba(1,251,255,.55); color: #01FBFF;">See Our Work</a>
+        </div>
+      </div>
+      <div ref="{{ heroScrollCueRef }}" style="position: absolute; left: 50%; bottom: 24px; z-index: 2; width: 26px; height: 26px; transform: translateX(-50%); color: rgba(255,255,255,.54); pointer-events: none; transition: opacity .16s linear;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+      </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ auditModalOpen }}" hint-placeholder-val="{{ false }}">
+    <div role="presentation" onClick="{{ closeAuditModal }}" style="position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: 24px; background: rgba(0,0,0,.78); backdrop-filter: blur(12px); animation: modalFadeIn .18s ease both;">
+      <section role="dialog" aria-modal="true" aria-labelledby="audit-modal-title" onClick="{{ stopAuditModalClick }}" style="position: relative; width: min(94vw, 670px); border-radius: 24px; border: 1px solid rgba(1,251,255,.28); background: radial-gradient(ellipse 80% 100% at 10% 0%, rgba(1,251,255,.12), transparent 54%), #020303; color: #ffffff; font-family: 'Inter', sans-serif; box-shadow: 0 42px 120px rgba(0,0,0,.7), 0 0 82px rgba(1,251,255,.20); padding: clamp(28px, 4vw, 40px); box-sizing: border-box; animation: modalLiftIn .24s ease both;">
+        <button type="button" aria-label="Close audit modal" onClick="{{ closeAuditModal }}" style="position: absolute; top: 20px; right: 20px; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,.18); background: transparent; color: #a7adb6; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: border-color .18s ease, color .18s ease, background .18s ease;" style-hover="border-color: rgba(1,251,255,.58); color: #ffffff; background: rgba(1,251,255,.08);">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+        </button>
+
+        <div style="max-width: 560px;">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+            <img src="uploads/team-omniai-logo-mark.png" alt="" style="display: block; width: 26px; height: 26px; object-fit: contain; filter: drop-shadow(0 0 10px rgba(1,251,255,.50));">
+            <span style="display: block; font-family: 'Space Grotesk', sans-serif; font-size: 12px; line-height: 1; font-weight: 700; letter-spacing: .12em; color: #01FBFF; text-transform: uppercase;">Before you go</span>
+          </div>
+          <h2 id="audit-modal-title" style="margin: 0 52px 16px 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(28px, 4.5vw, 38px); line-height: 1.08; letter-spacing: 0; color: #ffffff;">Want a free audit of your site first?</h2>
+          <p style="margin: 0 0 30px; max-width: 580px; color: #b8bdc4; font-size: 16px; line-height: 1.55;">30 seconds, no call needed - we'll show you 2-3 things costing you leads right now.</p>
+        </div>
+
+        <sc-if value="{{ auditFormVisible }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ submitAuditModal }}" novalidate="{{ true }}" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start;">
+            <div style="flex: 1 1 280px; min-width: 0;">
+              <input ref="{{ auditUrlRef }}" type="text" inputmode="url" placeholder="Enter your website to analyse..." aria-label="Website URL" style="width: 100%; box-sizing: border-box; min-height: 58px; padding: 0 22px; border-radius: 999px; border: 1px solid {{ auditInputBorder }}; background: rgba(0,0,0,.56); color: #ffffff; font-family: 'Inter', sans-serif; font-size: 15.5px; outline: none; transition: border-color .18s ease, box-shadow .18s ease;" style-focus="border-color: #01FBFF; box-shadow: 0 0 0 4px rgba(1,251,255,.12);">
+              <sc-if value="{{ auditUrlError }}" hint-placeholder-val="{{ false }}">
+                <p style="margin: 8px 0 0 18px; color: #ff8c6b; font-size: 12.5px;">Enter a valid website first.</p>
+              </sc-if>
+            </div>
+            <button type="submit" style="flex: 0 0 auto; min-height: 58px; padding: 0 24px; border-radius: 999px; border: none; background: #01FBFF; color: #06171a; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 16px 36px rgba(1,251,255,.34); transition: transform .18s ease, box-shadow .18s ease, background .18s ease;" style-hover="transform: translateY(-2px); background: #6FFFFF; box-shadow: 0 20px 44px rgba(1,251,255,.48);">Analyse&nbsp; &#8594;</button>
+          </form>
+          <button type="button" onClick="{{ closeAuditModal }}" style="display: block; margin: 22px auto 0; padding: 0; border: none; background: transparent; color: #8f949a; font-size: 13px; text-decoration: underline; cursor: pointer;" style-hover="color: #ffffff;">No thanks, just let me leave</button>
+        </sc-if>
+
+        <sc-if value="{{ auditSubmitted }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 18px; padding-top: 4px;">
+            <p style="margin: 0; color: #dfe2e6; font-size: 16px; line-height: 1.6;">Got it. We'll review the site and point you toward the next best fix.</p>
+            <a href="Contact.dc.html" style="display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 22px; border-radius: 999px; background: #01FBFF; color: #06171a; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; box-shadow: 0 0 26px rgba(1,251,255,.36);" style-hover="background: #6FFFFF; color: #06171a;">Continue to contact &#8594;</a>
+          </div>
+        </sc-if>
+      </section>
+    </div>
+  </sc-if>
+
+  <!-- Problems -->
+  <section id="problems" data-screen-label="Problems" style="background: radial-gradient(ellipse 72% 90% at 50% 8%, rgba(1,251,255,.10), transparent 62%), linear-gradient(180deg, #060708 0%, #0b0d10 100%); color: #e8eaed; padding: clamp(78px, 11vh, 124px) clamp(20px, 5vw, 64px); border-top: 1px solid rgba(1,251,255,.10); border-bottom: 1px solid rgba(1,251,255,.10);">
+    <div style="max-width: 1160px; margin: 0 auto;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: clamp(26px, 5vw, 64px); align-items: end; margin-bottom: clamp(34px, 5vw, 56px);">
+        <div>
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #8e98a2;">
+            <span style="color: #01FBFF;">(01)</span>
+            <span style="width: 42px; height: 1px; background: rgba(1,251,255,.44);"></span>
+            <span>What breaks growth</span>
+          </div>
+          <h2 style="margin: 0; max-width: 720px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 58px; line-height: 1.02; letter-spacing: 0; color: #ffffff; text-wrap: balance; text-shadow: 0 0 36px rgba(1,251,255,.14);">Sound familiar?</h2>
+        </div>
+        <p style="margin: 0; max-width: 430px; font-size: 18px; line-height: 1.68; color: #a7adb6; text-wrap: pretty;">Most growth problems are visible once the right team looks at the funnel, the system, and the user journey together.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(245px, 1fr)); gap: 16px;">
+        <sc-for list="{{ pains }}" as="p" hint-placeholder-count="4">
+          <article class="reveal" style="min-height: 270px; padding: clamp(24px, 3vw, 32px); border-radius: 8px; background: {{ p.bg }}; border: 1px solid {{ p.border }}; box-shadow: 0 18px 50px rgba(0,0,0,.24), 0 0 34px {{ p.cardGlow }}; color: {{ p.ink }}; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;" style-hover="transform: translateY(-5px); box-shadow: 0 24px 62px rgba(0,0,0,.32), 0 0 48px rgba(1,251,255,.12); border-color: rgba(1,251,255,.46);">
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 18px;">
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; line-height: 1; color: {{ p.numberColor }};">{{ p.n }}</span>
+              <span style="width: 10px; height: 10px; border-radius: 50%; background: {{ p.accent }}; box-shadow: 0 0 18px {{ p.glow }}; flex-shrink: 0;"></span>
+            </div>
+            <div>
+              <h3 style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 28px; line-height: 1.08; letter-spacing: 0; color: {{ p.ink }};">{{ p.title }}</h3>
+              <p style="margin: 0; font-size: 15.5px; line-height: 1.6; color: {{ p.muted }}; text-wrap: pretty;">{{ p.desc }}</p>
+            </div>
+            <div>
+              <div style="height: 1px; background: {{ p.rule }}; margin-bottom: 16px;"></div>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <sc-for list="{{ p.tags }}" as="tag" hint-placeholder-count="3">
+                  <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .08em; color: {{ p.tagColor }}; text-transform: uppercase;">{{ tag }}</span>
+                </sc-for>
+              </div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" data-screen-label="Services" ref="{{ svcSecRef }}" style="position: relative; padding: clamp(72px, 10vh, 112px) clamp(20px, 5vw, 64px); background: #0d0d0f;">
+    <div style="{{ svcViewportStyle }}">
+      <div ref="{{ svcTrackRef }}" style="{{ svcTrackStyle }}">
+        <div style="{{ svcIntroStyle }}">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 18px; font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #8e98a2;">
+            <span style="color: #01FBFF;">(02)</span>
+            <span style="width: 42px; height: 1px; background: rgba(1,251,255,.44);"></span>
+            <span>What we do</span>
+          </div>
+          <h2 style="margin: 0 0 14px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 46px; line-height: 1.02; letter-spacing: 0; color: #ffffff; text-wrap: balance;">Simple workstreams. One accountable team.</h2>
+          <p style="margin: 0; color: #a7adb6; font-size: 17px; line-height: 1.65; max-width: 650px; text-wrap: pretty;">We connect AI, product engineering, design, data, and growth so the fix does not get lost between vendors.</p>
+          <a href="Services.dc.html" style="display: inline-flex; align-items: center; justify-content: center; min-height: 46px; margin-top: 24px; padding: 0 18px; border-radius: 8px; border: 1px solid rgba(1,251,255,.36); color: #01FBFF; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; background: rgba(1,251,255,.045);" style-hover="background: rgba(1,251,255,.12); color: #6FFFFF;">View services -></a>
+          <div style="display: none;">
+          <p style="margin: 0; color: #a7adb6; font-size: clamp(15.5px, 1.6vw, 18px); line-height: 1.65;">Every service exists to solve a problem — the tech is just how we get there.</p>
+          <p style="margin: 26px 0 0; font-size: 13px; letter-spacing: .1em; font-weight: 600; color: #6ee7f5;">KEEP SCROLLING →</p>
+          </div>
+        </div>
+        <sc-for list="{{ services }}" as="sv" hint-placeholder-count="5">
+          <div style="{{ sv.cardStyle }}" style-hover="background: rgba(1,251,255,.055); border-color: rgba(1,251,255,.34); transform: translateY(-3px);">
+            <div style="{{ sv.visualStyle }}">
+              <sc-if value="{{ sv.hasVideo }}" hint-placeholder-val="{{ false }}">
+                <video src="{{ sv.video }}" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;"></video>
+              </sc-if>
+              <sc-if value="{{ sv.noVideo }}" hint-placeholder-val="{{ true }}">
+                <image-slot id="{{ sv.slot }}" shape="rect" placeholder="{{ sv.placeholder }}"></image-slot>
+              </sc-if>
+            </div>
+            <div style="position: relative; z-index: 1; display: flex; flex-direction: column; gap: 14px; flex: 1; justify-content: flex-start; padding: 4px 34px 0 0;">
+              <h3 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 24px; line-height: 1.08; letter-spacing: 0; color: #ffffff; max-width: 640px;">{{ sv.title }}</h3>
+              <p style="margin: 0; font-size: 14.5px; line-height: 1.58; color: #a7adb6; max-width: 560px;">{{ sv.desc }}</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px;">
+                <sc-for list="{{ sv.chips }}" as="chip" hint-placeholder-count="3">
+                  <span style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .08em; color: #7DFFFF; text-transform: uppercase;">{{ chip }}</span>
+                </sc-for>
+              </div>
+            </div>
+            <div style="position: absolute; right: 24px; top: 24px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; line-height: 1; letter-spacing: .12em; color: #01FBFF; pointer-events: none; user-select: none;">{{ sv.n }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case studies -->
+  <section id="work" data-screen-label="Case Studies" style="padding: clamp(64px, 10vh, 110px) clamp(20px, 5vw, 64px); background: linear-gradient(180deg, transparent, rgba(1,251,255,.025), transparent);">
+    <div style="max-width: 1160px; margin: 0 auto;">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 18px; font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #8e98a2;">
+        <span style="color: #01FBFF;">(03)</span>
+        <span style="width: 42px; height: 1px; background: rgba(1,251,255,.44);"></span>
+        <span>Proof</span>
+      </div>
+      <h2 style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 38px; letter-spacing: 0; color: #ffffff;">Problems we've solved.</h2>
+      <p style="margin: 0 0 40px; color: #a7adb6; font-size: 17px; max-width: 560px;">A few examples of what happens when you diagnose before you build.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 20px;">
+        <sc-for list="{{ cases }}" as="c" hint-placeholder-count="3">
+          <a href="{{ c.href }}" class="reveal" style="display: flex; flex-direction: column; border-radius: 8px; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07); overflow: hidden; transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; color: inherit;" style-hover="transform: translateY(-5px); border-color: rgba(1,251,255,.5); box-shadow: 0 12px 40px rgba(1,251,255,.13); color: inherit;">
+            <div style="aspect-ratio: 16 / 10; background: linear-gradient(160deg, rgba(1,251,255,.06), rgba(255,255,255,.02));">
+              <image-slot id="{{ c.slot }}" shape="rect" placeholder="{{ c.placeholder }}"></image-slot>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px; padding: 22px 24px 24px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                <span style="padding: 4px 11px; border-radius: 999px; border: 1px solid rgba(255,255,255,.14); font-size: 11px; letter-spacing: .08em; font-weight: 600; color: #9aa0a8;">{{ c.industry }}</span>
+                <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px; color: #01FBFF; text-shadow: 0 0 20px rgba(1,251,255,.4); white-space: nowrap;">{{ c.metric }}</span>
+              </div>
+              <h3 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px; letter-spacing: 0; color: #ffffff;">{{ c.title }}</h3>
+              <p style="margin: 0; font-size: 14px; line-height: 1.55; color: #a7adb6;">{{ c.problem }}</p>
+              <span style="margin-top: 4px; font-size: 13px; font-weight: 600; color: #7DFFFF;">View case study -></span>
+              <span style="display: none;">
+              <span style="margin-top: 4px; font-size: 13px; font-weight: 600; color: #6ee7f5;">View case study →</span>
+              </span>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+      <div style="margin-top: 32px; text-align: center;">
+        <a href="Work.dc.html" style="padding: 12px 26px; border-radius: 8px; border: 1px solid rgba(1,251,255,.45); color: #01FBFF; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14.5px; background: rgba(1,251,255,.05);" style-hover="background: rgba(1,251,255,.12); color: #6FFFFF;">See all case studies -></a>
+        <span style="display: none;">
+        <a href="Work.dc.html" style="padding: 12px 26px; border-radius: 10px; border: 1px solid rgba(0,229,255,.45); color: #00e5ff; font-weight: 600; font-size: 14.5px; background: rgba(0,229,255,.05);" style-hover="background: rgba(0,229,255,.12); color: #7df3ff;">See all case studies →</a>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section id="process" data-screen-label="Process" style="position: relative; overflow: hidden; padding: clamp(78px, 11vh, 128px) clamp(20px, 5vw, 64px); background: radial-gradient(ellipse 68% 86% at 78% 48%, rgba(1,251,255,.08), transparent 64%), #050607; border-top: 1px solid rgba(1,251,255,.10);">
+    <div style="position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px); background-size: 72px 72px; opacity: .22;"></div>
+    <div style="position: relative; z-index: 1; max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 56px; align-items: center;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 18px; font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #8e98a2;">
+          <span style="color: #01FBFF;">(04)</span>
+          <span style="width: 42px; height: 1px; background: rgba(1,251,255,.44);"></span>
+          <span>Process</span>
+        </div>
+        <h2 style="margin: 0; max-width: 520px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 48px; line-height: 1.02; letter-spacing: 0; color: #ffffff; text-wrap: balance;">Bespoke systems, smart AI agents, and measurable growth loops.</h2>
+        <p style="margin: 20px 0 0; max-width: 480px; color: #a7adb6; font-size: 16.5px; line-height: 1.68; text-wrap: pretty;">A focused loop for turning a business problem into a working product, then improving it with real data.</p>
+        <div role="tablist" aria-label="Team OmniAI process" style="display: flex; flex-direction: column; gap: 0; margin-top: 42px; max-width: 360px;">
+          <sc-for list="{{ processItems }}" as="pr" hint-placeholder-count="3">
+            <button type="button" aria-pressed="{{ pr.active }}" onClick="{{ pr.activate }}" onMouseEnter="{{ pr.activate }}" style="{{ pr.rowStyle }}" style-hover="color: #01FBFF;">
+              <span style="{{ pr.numberStyle }}">{{ pr.n }}</span>
+              <span style="{{ pr.titleStyle }}">{{ pr.title }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <p style="margin: 22px 0 0; max-width: 380px; min-height: 52px; color: #dfe2e6; font-size: 15px; line-height: 1.6;">{{ processActive.summary }}</p>
+      </div>
+
+      <div class="reveal" style="position: relative; min-height: 500px;">
+        <div style="position: relative; width: min(100%, 660px); margin-left: auto; border-radius: 8px; border: 1px solid rgba(255,255,255,.08); background: linear-gradient(160deg, rgba(255,255,255,.055), rgba(255,255,255,.018)), #080a0c; box-shadow: 0 32px 90px rgba(0,0,0,.52), 0 0 72px rgba(1,251,255,.13); overflow: hidden; animation: processMockupFloat 7s ease-in-out infinite;">
+          <div style="position: absolute; inset: 0; background: radial-gradient(ellipse 52% 62% at 55% 46%, rgba(1,251,255,.13), transparent 70%); pointer-events: none;"></div>
+          <div style="position: absolute; top: 74px; bottom: 58px; width: 46%; background: linear-gradient(90deg, transparent, rgba(1,251,255,.20), transparent); filter: blur(12px); animation: processScan 3.4s ease-in-out infinite; pointer-events: none;"></div>
+          <div style="position: relative; z-index: 1; display: flex; align-items: center; gap: 8px; padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,.08);">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #ff6b4a;"></span>
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #ffd166;"></span>
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #01FBFF;"></span>
+            <span style="margin-left: 12px; width: 42%; height: 8px; border-radius: 999px; background: rgba(255,255,255,.08);"></span>
+            <span style="margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .08em; color: #01FBFF; text-transform: uppercase;">{{ processActive.badge }}</span>
+          </div>
+          <div style="position: relative; z-index: 1; display: grid; grid-template-columns: minmax(170px, .85fr) minmax(240px, 1.2fr); gap: 22px; padding: 34px;">
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <img src="uploads/team-omniai-logo-mark.png" alt="" style="width: 74px; height: 74px; object-fit: contain; filter: drop-shadow(0 0 18px rgba(1,251,255,.45));">
+              <div style="display: grid; gap: 10px;">
+                <sc-for list="{{ processActive.stats }}" as="stat" hint-placeholder-count="3">
+                  <div style="padding: 12px 13px; border-radius: 8px; border: 1px solid rgba(255,255,255,.08); background: rgba(0,0,0,.28);">
+                    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; color: #01FBFF;">{{ stat.value }}</div>
+                    <div style="margin-top: 4px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #8e98a2;">{{ stat.label }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: center; min-height: 270px;">
+              <p style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #8e98a2;">Team OmniAI / {{ processActive.title }}</p>
+              <h3 style="margin: 0; max-width: 330px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 42px; line-height: 1.02; letter-spacing: 0; color: #ffffff; text-wrap: balance;">Turn every <span style="color: #01FBFF; text-shadow: 0 0 26px rgba(1,251,255,.36);">{{ processActive.focus }}</span> into {{ processActive.outcome }}.</h3>
+              <div style="height: 1px; background: rgba(255,255,255,.09); margin: 26px 0 16px;"></div>
+              <div style="display: grid; gap: 10px;">
+                <sc-for list="{{ processActive.points }}" as="pt" hint-placeholder-count="3">
+                  <div style="display: flex; align-items: center; gap: 10px; color: #dfe2e6; font-size: 13.5px;">
+                    <span style="width: 7px; height: 7px; border-radius: 50%; background: #01FBFF; box-shadow: 0 0 14px rgba(1,251,255,.58); flex-shrink: 0;"></span>
+                    <span>{{ pt }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="margin-top: 24px; height: 8px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden;">
+                <div style="height: 100%; width: {{ processActive.progress }}; border-radius: inherit; background: linear-gradient(90deg, rgba(1,251,255,.18), #01FBFF); box-shadow: 0 0 20px rgba(1,251,255,.35); transform-origin: left center; animation: processLineFill 3.4s ease-in-out infinite;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="position: absolute; right: -10px; top: 82px; width: 188px; padding: 14px; border-radius: 8px; border: 1px solid rgba(1,251,255,.24); background: rgba(3,6,7,.88); box-shadow: 0 18px 46px rgba(0,0,0,.38), 0 0 34px rgba(1,251,255,.12); animation: processPanelPulse 3.4s ease-in-out infinite;">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #01FBFF;">{{ processActive.sideTitle }}</div>
+          <div style="margin-top: 8px; color: #dfe2e6; font-size: 13px; line-height: 1.45;">{{ processActive.sideCopy }}</div>
+        </div>
+        <div style="position: absolute; right: 28px; bottom: 78px; width: 150px; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.045); backdrop-filter: blur(10px);">
+          <div style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; color: #ffffff;">{{ processActive.metric }}</div>
+          <div style="margin-top: 5px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #8e98a2;">{{ processActive.metricLabel }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact section (shared) -->
+  <section id="contact" data-screen-label="Contact" style="background: radial-gradient(ellipse 70% 90% at 50% 100%, rgba(1,251,255,.06), transparent);">
+    <dc-import name="Contact Section" hint-size="100%,900px"></dc-import>
+  </section>
+
+  <!-- Footer -->
+  <footer style="border-top: 1px solid rgba(255,255,255,.07); padding: 44px clamp(20px, 5vw, 64px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; max-width: 1160px; margin: 0 auto; box-sizing: border-box;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <img src="uploads/team-omniai-logo-primary.png" alt="Team OmniAI logo" style="display: block; height: 34px; width: auto; max-width: 104px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(1,251,255,.24));">
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; font-size: 13.5px;">
+      <a href="Services.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">Services</a>
+      <a href="Work.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">Work</a>
+      <a href="About.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">About</a>
+      <a href="Pricing.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">Pricing</a>
+      <a href="Contact.dc.html" style="color: #8b9098;" style-hover="color: #ffffff;">Contact</a>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; color: #8b9098; text-align: right;">
+      <a href="mailto:teamomniai16@gmail.com">teamomniai16@gmail.com</a>
+      <div style="display: flex; gap: 14px; justify-content: flex-end;">
+        <a href="https://www.linkedin.com/company/teamomniai/" target="_blank" rel="noopener" style="color: #8b9098;" style-hover="color: #6FFFFF;">LinkedIn</a>
+        <a href="https://www.instagram.com/teamomniai" target="_blank" rel="noopener" style="color: #8b9098;" style-hover="color: #6FFFFF;">Instagram</a>
+        <a href="https://www.upwork.com/freelancers/~01550ea361f2f00af1" target="_blank" rel="noopener" style="color: #8b9098;" style-hover="color: #6FFFFF;">Upwork</a>
+      </div>
+      <span>Based in Lahore, serving clients worldwide.</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;particleDensity&quot;: {&quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 55, &quot;min&quot;: 0, &quot;max&quot;: 150, &quot;step&quot;: 5, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Hero&quot;}}">
+class Component extends DCLogic {
+  state = { sent: false, svcMode: 'grid', processIndex: 0, auditModalOpen: false, auditSubmitted: false, auditUrlError: false };
+  _cleanText(value) {
+    return String(value)
+      .replace(/\u00e2\u20ac\u201d/g, '-')
+      .replace(/\u00e2\u2020\u2019/g, '->')
+      .replace(/\u00c3\u2014/g, 'x');
+  }
+  renderVals() {
+    const processStages = [
+      {
+        n: '01',
+        title: 'Build',
+        focus: 'idea',
+        outcome: 'a shipped system',
+        summary: 'We turn the strongest solution into a working website, AI agent, automation, or product sprint.',
+        badge: 'Build sprint',
+        points: ['Product architecture', 'AI and automation', 'Frontend and backend'],
+        stats: [{ value: '7d', label: 'First slice' }, { value: '3x', label: 'Faster launch' }, { value: '1', label: 'Owner' }],
+        sideTitle: 'From plan to product',
+        sideCopy: 'Clean builds with clear handoff, tracking, and room to scale.',
+        metric: 'Live',
+        metricLabel: 'Shipped work',
+        progress: '72%',
+      },
+      {
+        n: '02',
+        title: 'Understand',
+        focus: 'signal',
+        outcome: 'a clear decision',
+        summary: 'We read the funnel, systems, user behavior, and bottlenecks before recommending what to fix.',
+        badge: 'Problem map',
+        points: ['Funnel diagnosis', 'User journey review', 'System audit'],
+        stats: [{ value: '2-3', label: 'Hidden blockers' }, { value: '24h', label: 'Fast read' }, { value: '0', label: 'Guesswork' }],
+        sideTitle: 'Find the real issue',
+        sideCopy: 'Your next move is based on evidence, not a prettier hunch.',
+        metric: 'Audit',
+        metricLabel: 'Clarity first',
+        progress: '58%',
+      },
+      {
+        n: '03',
+        title: 'Improve',
+        focus: 'result',
+        outcome: 'compounding growth',
+        summary: 'We measure what changed, tighten the experience, and keep improving the parts that move revenue.',
+        badge: 'Growth loop',
+        points: ['Conversion testing', 'Performance tracking', 'Iteration roadmap'],
+        stats: [{ value: '+38%', label: 'Conversion lift' }, { value: '30h', label: 'Time saved' }, { value: '4x', label: 'Faster replies' }],
+        sideTitle: 'Make wins repeatable',
+        sideCopy: 'Every release becomes a stronger baseline for the next one.',
+        metric: 'Loop',
+        metricLabel: 'Measured gains',
+        progress: '86%',
+      },
+    ];
+    const activeProcessIndex = ((this.state.processIndex % processStages.length) + processStages.length) % processStages.length;
+    const activeProcess = processStages[activeProcessIndex];
+    const processItems = processStages.map((p, i) => {
+      const active = i === activeProcessIndex;
+      return {
+        ...p,
+        active,
+        activate: (ev) => {
+          ev?.preventDefault?.();
+          this.setState({ processIndex: i });
+        },
+        rowStyle: {
+          width: '100%',
+          display: 'flex',
+          alignItems: 'baseline',
+          gap: '16px',
+          padding: '17px 0',
+          border: 'none',
+          borderTop: i === 0 ? '1px solid rgba(255,255,255,.12)' : '1px solid rgba(255,255,255,.08)',
+          borderBottom: i === processStages.length - 1 ? '1px solid rgba(255,255,255,.08)' : 'none',
+          background: 'transparent',
+          color: active ? '#01FBFF' : 'rgba(255,255,255,.34)',
+          cursor: 'pointer',
+          textAlign: 'left',
+          fontFamily: '"Space Grotesk", sans-serif',
+          transition: 'color .2s ease, opacity .2s ease, transform .2s ease',
+          transform: active ? 'translateX(8px)' : 'none',
+        },
+        numberStyle: {
+          minWidth: '34px',
+          fontSize: '12px',
+          fontWeight: 700,
+          letterSpacing: '.12em',
+          color: active ? '#01FBFF' : 'rgba(255,255,255,.28)',
+        },
+        titleStyle: {
+          fontSize: '32px',
+          lineHeight: 1,
+          fontWeight: 700,
+          letterSpacing: 0,
+          color: active ? '#01FBFF' : 'rgba(255,255,255,.34)',
+          textShadow: active ? '0 0 26px rgba(1,251,255,.30)' : 'none',
+        },
+      };
+    });
+    return {
+      heroSectionRef: (el) => { this._heroSection = el; },
+      heroCopyRef: (el) => { this._heroCopy = el; },
+      heroScrollCueRef: (el) => { this._heroScrollCue = el; },
+      heroCanvas: (el) => { this._canvas = el; this._initHeroNetwork(); },
+      auditModalOpen: this.state.auditModalOpen,
+      auditSubmitted: this.state.auditSubmitted,
+      auditFormVisible: !this.state.auditSubmitted,
+      auditUrlError: this.state.auditUrlError,
+      auditInputBorder: this.state.auditUrlError ? 'rgba(255,140,107,.75)' : 'rgba(1,251,255,.22)',
+      auditUrlRef: (el) => { this._auditUrlInput = el; },
+      processItems,
+      processActive: activeProcess,
+      openAuditModal: (ev) => {
+        ev?.preventDefault();
+        this.setState({ auditModalOpen: true, auditSubmitted: false, auditUrlError: false }, () => {
+          setTimeout(() => this._auditUrlInput?.focus(), 0);
+        });
+      },
+      closeAuditModal: (ev) => {
+        ev?.preventDefault();
+        this._rememberAuditDismissal();
+        this.setState({ auditModalOpen: false, auditUrlError: false });
+      },
+      stopAuditModalClick: (ev) => ev.stopPropagation(),
+      submitAuditModal: (ev) => {
+        ev.preventDefault();
+        const raw = (this._auditUrlInput?.value || '').trim();
+        const normalized = /^https?:\/\//i.test(raw) ? raw : 'https://' + raw;
+        let valid = false;
+        try {
+          const url = new URL(normalized);
+          valid = url.hostname.includes('.') && url.hostname.length > 3;
+        } catch (err) {
+          valid = false;
+        }
+        if (!valid) {
+          this.setState({ auditUrlError: true });
+          return;
+        }
+        try { sessionStorage.setItem('omniai-audit-website', raw); } catch (err) {}
+        this.setState({ auditSubmitted: true, auditUrlError: false });
+      },
+      pains: [
+        { n: "01", title: "Traffic, no sales", desc: "People arrive, browse, and leave because the offer, message, or checkout never earns the next click.", tags: ["Conversion", "Web audit", "UX"], bg: "linear-gradient(160deg, rgba(1,251,255,.10), rgba(255,255,255,.025)), #0b1114", border: "rgba(1,251,255,.20)", ink: "#ffffff", muted: "#a7adb6", numberColor: "rgba(1,251,255,.42)", accent: "#01FBFF", glow: "rgba(1,251,255,.55)", rule: "rgba(1,251,255,.16)", tagColor: "#7DFFFF", cardGlow: "rgba(1,251,255,.05)" },
+        { n: "02", title: "Ops held together", desc: "The business depends on spreadsheets, manual follow-ups, and tiny tasks that quietly eat the week.", tags: ["Automation", "Internal tools", "AI"], bg: "linear-gradient(160deg, rgba(1,251,255,.075), rgba(255,255,255,.02)), #0c0e12", border: "rgba(1,251,255,.18)", ink: "#ffffff", muted: "#a7adb6", numberColor: "rgba(1,251,255,.38)", accent: "#01FBFF", glow: "rgba(1,251,255,.50)", rule: "rgba(1,251,255,.14)", tagColor: "#7DFFFF", cardGlow: "rgba(1,251,255,.045)" },
+        { n: "03", title: "AI feels unclear", desc: "You know AI should help, but the use cases, cost, and risk are still too fuzzy to bet on.", tags: ["AI strategy", "RAG", "Agents"], bg: "linear-gradient(160deg, rgba(1,251,255,.06), rgba(255,255,255,.018)), #0a0d10", border: "rgba(1,251,255,.22)", ink: "#ffffff", muted: "#a7adb6", numberColor: "rgba(1,251,255,.40)", accent: "#01FBFF", glow: "rgba(1,251,255,.54)", rule: "rgba(1,251,255,.16)", tagColor: "#7DFFFF", cardGlow: "rgba(1,251,255,.05)" },
+        { n: "04", title: "Built, then abandoned", desc: "The last team shipped something, disappeared, and left you with bugs, loose ends, and no roadmap.", tags: ["Engineering", "Recovery", "Growth"], bg: "linear-gradient(160deg, rgba(1,251,255,.045), rgba(255,255,255,.02)), #0b0d11", border: "rgba(1,251,255,.16)", ink: "#ffffff", muted: "#a7adb6", numberColor: "rgba(1,251,255,.35)", accent: "#01FBFF", glow: "rgba(1,251,255,.48)", rule: "rgba(1,251,255,.13)", tagColor: "#7DFFFF", cardGlow: "rgba(1,251,255,.04)" },
+      ],
+      steps: [
+        { n: "01", title: "Diagnose", desc: "We dig into your numbers, funnel, and systems to find what's actually broken." },
+        { n: "02", title: "Design the Solution", desc: "You get a clear plan with scope, cost, and expected outcome — before we build." },
+        { n: "03", title: "Build with the Right Tech", desc: "We build only what solves the problem, with tech chosen for the job." },
+        { n: "04", title: "Measure & Grow", desc: "We track results against the goal and keep improving what works." },
+      ].map((s) => ({ ...s, desc: this._cleanText(s.desc) })),
+      ...this._svcVals(),
+      cases: [
+        { slot: "work-cover-1", placeholder: "Drop project-1 cover (16:10)", href: "Case Study - Ecommerce.dc.html", industry: "E-COMMERCE", metric: "+38% conversion", title: "Checkout that stopped leaking sales", problem: "Steady ad traffic, checkout conversion stuck under 1%." },
+        { slot: "work-cover-2", placeholder: "Drop project-2 cover (16:10)", href: "Case Study - Ecommerce.dc.html", industry: "LOGISTICS", metric: "30 hrs/wk saved", title: "Dispatch without the spreadsheets", problem: "Operations ran on five spreadsheets and group chats." },
+        { slot: "work-cover-3", placeholder: "Drop project-3 cover (16:10)", href: "Case Study - Ecommerce.dc.html", industry: "SAAS", metric: "4× faster replies", title: "AI support that customers trust", problem: "Support drowning in repeat questions across time zones." },
+      ].map((c) => ({ ...c, metric: this._cleanText(c.metric) })),
+      whyUs: [
+        { title: "Senior, engineering-led team", desc: "You talk to the people doing the work — no layers, no hand-offs." },
+        { title: "All disciplines under one roof", desc: "Strategy, AI, engineering, design, and marketing on one team." },
+        { title: "US & EU timezone coverage", desc: "Overlap with your working hours, wherever you are." },
+        { title: "We diagnose before we build", desc: "You'll never pay for software that solves the wrong problem." },
+      ].map((w) => ({ ...w, desc: this._cleanText(w.desc) })),
+    };
+  }
+  _svcVals() {
+    const mode = this.state.svcMode;
+    const viewportStyle = mode === 'pin'
+      ? { position: 'sticky', top: 0, height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden' }
+      : {};
+    const trackStyle = mode === 'pin'
+      ? { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '0', maxWidth: '1160px', margin: '0 auto' }
+      : mode === 'snap'
+        ? { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '0', maxWidth: '1160px', margin: '0 auto' }
+        : { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '0', maxWidth: '1160px', margin: '0 auto' };
+    const introStyle = mode === 'pin'
+      ? { flex: '0 0 auto', width: 'min(440px, 62vw)', paddingRight: '10px' }
+      : mode === 'snap'
+        ? { flex: '0 0 auto', width: '74vw', maxWidth: '400px', scrollSnapAlign: 'start', display: 'flex', flexDirection: 'column', justifyContent: 'center' }
+        : { gridColumn: '1 / -1', maxWidth: '690px', marginBottom: 'clamp(30px, 5vw, 46px)' };
+    const cardBase = mode === 'pin'
+      ? { width: '75vw', maxWidth: '1080px', height: '80vh', maxHeight: '700px', flex: '0 0 auto' }
+      : mode === 'snap'
+        ? { width: '85vw', maxWidth: '480px', minHeight: '480px', flex: '0 0 auto', scrollSnapAlign: 'center' }
+        : { minHeight: '220px' };
+    const data = [
+      { title: 'AI & Automation', desc: 'Cut manual work and answer customers instantly with AI that fits your business.', chips: ['Chatbots', 'RAG', 'Workflow Automation'] },
+      { title: 'Backend & Frontend Development', desc: 'Fast, reliable products built to scale with you — not against you.', chips: ['Python', 'Django', 'FastAPI', 'React', 'Next.js'] },
+      { title: 'UI/UX Design', desc: 'Interfaces people understand in seconds — designed to convert, not just look good.', chips: ['Research', 'Prototyping', 'Design Systems'] },
+      { title: 'Data Engineering & Analytics', desc: 'Turn scattered data into dashboards and decisions you can trust.', chips: ['Pipelines', 'Warehousing', 'BI Dashboards'] },
+      { title: 'Digital Marketing & UGC Ads', desc: 'Creative and campaigns that bring the right people to what we built.', chips: ['Paid Social', 'UGC Creative', 'Funnels'] },
+    ];
+    return {
+      svcViewportStyle: viewportStyle,
+      svcTrackStyle: trackStyle,
+      svcIntroStyle: introStyle,
+      svcSecRef: (el) => { this._svcSec = el; },
+      svcTrackRef: (el) => { this._svcTrack = el; this._setupCarousel(); },
+      services: data.map((s, i) => ({
+        ...s,
+        desc: this._cleanText(s.desc),
+        video: null,
+        hasVideo: false,
+        noVideo: false,
+        n: '0' + (i + 1),
+        slot: 'svc-visual-' + (i + 1),
+        placeholder: 'Drop graphic — assets/services/service-' + (i + 1) + '.png',
+        cardStyle: { ...cardBase, position: 'relative', borderRadius: '0', border: '1px solid rgba(255,255,255,.08)', overflow: 'hidden', display: 'flex', flexDirection: 'column', gap: '18px', padding: '24px', boxSizing: 'border-box', background: 'rgba(255,255,255,.015)', transition: 'background .2s ease, border-color .2s ease, transform .2s ease' },
+        visualStyle: { display: 'none' },
+      })),
+    };
+  }
+  _setupCarousel() {
+    if (this.state.svcMode !== 'pin' || this._svcInit) return;
+    const sec = this._svcSec, track = this._svcTrack;
+    if (!sec || !track) return;
+    this._svcInit = true;
+    let extra = 0, target = 0, current = 0;
+    const measure = () => {
+      extra = Math.max(0, track.scrollWidth - innerWidth);
+      sec.style.height = (innerHeight + extra) + 'px';
+    };
+    const onScroll = () => {
+      const top = sec.getBoundingClientRect().top + scrollY;
+      target = extra ? Math.min(1, Math.max(0, (scrollY - top) / extra)) : 0;
+    };
+    measure(); onScroll();
+    addEventListener('resize', () => { measure(); onScroll(); });
+    addEventListener('scroll', onScroll, { passive: true });
+    const loop = () => {
+      if (!track.isConnected) return;
+      current += (target - current) * 0.12;
+      if (Math.abs(target - current) < 0.0004) current = target;
+      track.style.transform = 'translate3d(' + (-current * extra) + 'px,0,0)';
+      requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
+  }
+  _showAuditModal(force = false) {
+    if (this.state.auditModalOpen) return;
+    let dismissed = false;
+    try { dismissed = sessionStorage.getItem('omniai-audit-modal-dismissed') === '1'; } catch (err) {}
+    if (!force && dismissed) return;
+    this.setState({ auditModalOpen: true, auditSubmitted: false, auditUrlError: false }, () => {
+      setTimeout(() => this._auditUrlInput?.focus(), 0);
+    });
+  }
+  _rememberAuditDismissal() {
+    try { sessionStorage.setItem('omniai-audit-modal-dismissed', '1'); } catch (err) {}
+  }
+  componentDidUpdate() {
+    document.body.style.overflow = this.state.auditModalOpen ? 'hidden' : '';
+  }
+  componentDidMount() {
+    const els = document.querySelectorAll('.reveal');
+    els.forEach((el, i) => { el.style.opacity = '0'; el.style.transform = 'translateY(18px)'; el.style.transition = `opacity .6s ease ${ (i % 5) * 80 }ms, transform .6s ease ${ (i % 5) * 80 }ms`; });
+    this._io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => { if (en.isIntersecting) { en.target.style.opacity = '1'; en.target.style.transform = 'none'; this._io.unobserve(en.target); } });
+    }, { threshold: 0.15 });
+    els.forEach((el) => this._io.observe(el));
+    this._initHeroNetwork();
+    this._processTimer = setInterval(() => {
+      this.setState({ processIndex: (this.state.processIndex + 1) % 3 });
+    }, 3400);
+    this._auditTimer = setTimeout(() => this._showAuditModal(), 18000);
+    this._auditExitIntent = (ev) => {
+      if (ev.clientY <= 0) this._showAuditModal();
+    };
+    this._auditEscape = (ev) => {
+      if (ev.key === 'Escape' && this.state.auditModalOpen) {
+        this._rememberAuditDismissal();
+        this.setState({ auditModalOpen: false, auditUrlError: false });
+      }
+    };
+    document.addEventListener('mouseleave', this._auditExitIntent);
+    window.addEventListener('keydown', this._auditEscape);
+  }
+  componentWillUnmount() {
+    clearInterval(this._processTimer);
+    clearTimeout(this._auditTimer);
+    document.removeEventListener('mouseleave', this._auditExitIntent);
+    window.removeEventListener('keydown', this._auditEscape);
+    this._heroCleanup?.();
+    document.body.style.overflow = '';
+  }
+  _initHeroNetwork() {
+    const c = this._canvas;
+    if (!c || this._heroStarted) return;
+    this._heroStarted = true;
+    const ctx = c.getContext('2d');
+    const brand = { r: 1, g: 251, b: 255 };
+    const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+    const ease = (t) => t * t * (3 - 2 * t);
+    const pointer = { x: 0, y: 0, active: false };
+    let w = 1, h = 1, dpr = 1, ambient = [], logo = [], links = [];
+    let progress = 0, camera = 1, raf = 0;
+
+    const seedAmbient = () => {
+      const count = Math.round(clamp((this.props.particleDensity ?? 55) * 2.3, 90, 240));
+      ambient = Array.from({ length: count }, () => ({
+        x: Math.random(),
+        y: Math.random(),
+        z: .2 + Math.random() * 1.8,
+        r: .45 + Math.random() * 2.1,
+        drift: Math.random() * Math.PI * 2,
+        cyan: Math.random() > .58,
+      }));
+    };
+
+    const resize = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = c.width = Math.max(1, Math.floor((c.offsetWidth || innerWidth) * dpr));
+      h = c.height = Math.max(1, Math.floor((c.offsetHeight || innerHeight) * dpr));
+      seedAmbient();
+      for (const p of logo) {
+        if (!Number.isFinite(p.x)) { p.x = Math.random() * w; p.y = Math.random() * h; }
+      }
+    };
+
+    const makeLogoParticle = (pt) => ({
+      tx: pt.tx,
+      ty: pt.ty,
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: 0,
+      vy: 0,
+      r: .65 + Math.random() * 1.35,
+      phase: Math.random() * Math.PI * 2,
+      bright: pt.bright,
+    });
+
+    const fallbackLogo = () => {
+      const pts = [];
+      for (let i = 0; i < 920; i++) {
+        const a = Math.random() * Math.PI * 2;
+        const ring = Math.random() > .45 ? .39 + Math.random() * .08 : .28 + Math.random() * .03;
+        pts.push({ tx: Math.cos(a) * ring, ty: Math.sin(a) * ring, bright: Math.random() });
+      }
+      logo = pts.map(makeLogoParticle);
+      buildLinks();
+    };
+
+    const buildLinks = () => {
+      links = [];
+      const sample = logo.filter((_, i) => i % 4 === 0);
+      for (let i = 0; i < sample.length; i++) {
+        for (let j = i + 1; j < sample.length; j++) {
+          const dx = sample[i].tx - sample[j].tx;
+          const dy = sample[i].ty - sample[j].ty;
+          const dist = Math.hypot(dx, dy);
+          if (dist < .07 && Math.random() > .34) links.push([sample[i], sample[j], dist]);
+        }
+      }
+    };
+
+    const loadLogo = () => {
+      const img = new Image();
+      img.onload = () => {
+        const size = 220;
+        const off = document.createElement('canvas');
+        off.width = size;
+        off.height = size;
+        const ox = off.getContext('2d', { willReadFrequently: true });
+        ox.clearRect(0, 0, size, size);
+        ox.drawImage(img, 0, 0, size, size);
+        const data = ox.getImageData(0, 0, size, size).data;
+        const candidates = [];
+        for (let y = 2; y < size - 2; y += 2) {
+          for (let x = 2; x < size - 2; x += 2) {
+            const idx = (y * size + x) * 4;
+            const a = data[idx + 3];
+            const r = data[idx], g = data[idx + 1], b = data[idx + 2];
+            if (a > 46 && (g + b) > 130) {
+              candidates.push({
+                tx: (x / size) - .5 + (Math.random() - .5) * .006,
+                ty: (y / size) - .5 + (Math.random() - .5) * .006,
+                bright: clamp((g + b - r) / 510, .35, 1),
+              });
+            }
+          }
+        }
+        if (!candidates.length) { fallbackLogo(); return; }
+        for (let i = candidates.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+        }
+        const count = Math.round(clamp((this.props.particleDensity ?? 55) * 18, 720, 1280));
+        logo = candidates.slice(0, Math.min(count, candidates.length)).map(makeLogoParticle);
+        buildLinks();
+      };
+      img.onerror = fallbackLogo;
+      img.src = 'uploads/team-omniai-logo-mark.png';
+    };
+
+    const updateScroll = () => {
+      const sec = this._heroSection;
+      if (!sec) { progress = 0; return; }
+      const rect = sec.getBoundingClientRect();
+      const total = Math.max(1, sec.offsetHeight - innerHeight);
+      progress = clamp(-rect.top / total, 0, 1);
+      const fade = clamp(1 - progress * 1.75, 0, 1);
+      if (this._heroCopy) {
+        this._heroCopy.style.opacity = fade;
+        this._heroCopy.style.transform = 'translateY(' + (-progress * 40) + 'px) scale(' + (1 - progress * .05) + ')';
+      }
+      if (this._heroScrollCue) this._heroScrollCue.style.opacity = String(clamp(1 - progress * 4, 0, 1));
+    };
+
+    const movePointer = (ev) => {
+      const rect = c.getBoundingClientRect();
+      pointer.x = (ev.clientX - rect.left) * dpr;
+      pointer.y = (ev.clientY - rect.top) * dpr;
+      pointer.active = true;
+    };
+    const leavePointer = () => { pointer.active = false; };
+
+    resize();
+    updateScroll();
+    loadLogo();
+    window.addEventListener('resize', resize);
+    window.addEventListener('scroll', updateScroll, { passive: true });
+    c.addEventListener('pointermove', movePointer);
+    c.addEventListener('pointerleave', leavePointer);
+    c.addEventListener('pointerdown', movePointer);
+
+    this._heroCleanup = () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('scroll', updateScroll);
+      c.removeEventListener('pointermove', movePointer);
+      c.removeEventListener('pointerleave', leavePointer);
+      c.removeEventListener('pointerdown', movePointer);
+    };
+
+    const drawDot = (x, y, r, color, alpha) => {
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+    };
+
+    const tick = (now) => {
+      if (!c.isConnected) return;
+      updateScroll();
+      const t = now * .001;
+      const eased = ease(progress);
+      camera += ((.82 + eased * 2.55) - camera) * .08;
+
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = '#060708';
+      ctx.fillRect(0, 0, w, h);
+
+      const grd = ctx.createRadialGradient(w / 2, h * .48, 0, w / 2, h * .48, Math.max(w, h) * .62);
+      grd.addColorStop(0, 'rgba(1,251,255,.09)');
+      grd.addColorStop(.42, 'rgba(1,251,255,.025)');
+      grd.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grd;
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.globalCompositeOperation = 'lighter';
+      for (const a of ambient) {
+        const parallax = 1 + eased * a.z * .42;
+        const x = w / 2 + (a.x - .5) * w * parallax + Math.sin(t * .22 + a.drift) * 18 * dpr;
+        const y = h / 2 + (a.y - .5) * h * parallax + Math.cos(t * .2 + a.drift) * 16 * dpr;
+        const alpha = (.12 + a.z * .06) * (1 - eased * .18);
+        const color = a.cyan ? 'rgb(1,251,255)' : 'rgb(235,246,248)';
+        drawDot(x, y, a.r * dpr * (1 + eased * 1.35), color, alpha);
+      }
+
+      const size = Math.min(w, h) * (w < 760 * dpr ? .82 : .58) * camera;
+      const cx = w / 2;
+      const cy = h * (.50 + eased * .02);
+      const repelRadius = Math.max(86, Math.min(w, h) * .12) * dpr;
+
+      for (const p of logo) {
+        const wave = Math.sin(t * 1.15 + p.phase) * 7 * dpr * (1 - eased * .18);
+        const tx = cx + p.tx * size;
+        const ty = cy + p.ty * size + wave;
+        p.vx += (tx - p.x) * .018;
+        p.vy += (ty - p.y) * .018;
+        if (pointer.active) {
+          const dx = p.x - pointer.x;
+          const dy = p.y - pointer.y;
+          const d = Math.hypot(dx, dy) || 1;
+          if (d < repelRadius) {
+            const force = (1 - d / repelRadius) * 2.8;
+            p.vx += (dx / d) * force * dpr;
+            p.vy += (dy / d) * force * dpr;
+          }
+        }
+        p.vx *= .86;
+        p.vy *= .86;
+        p.x += p.vx;
+        p.y += p.vy;
+      }
+
+      ctx.lineWidth = .75 * dpr;
+      for (const [a, b, dist] of links) {
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const d = Math.hypot(dx, dy);
+        const max = Math.max(26 * dpr, size * (.035 + dist * .4));
+        if (d < max) {
+          ctx.strokeStyle = 'rgba(1,251,255,' + (.04 + (1 - d / max) * .16) + ')';
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+
+      for (const p of logo) {
+        const alpha = .42 + p.bright * .42;
+        const radius = (p.r + eased * .75) * dpr;
+        drawDot(p.x, p.y, radius * 2.7, 'rgb(' + brand.r + ',' + brand.g + ',' + brand.b + ')', alpha * .08);
+        drawDot(p.x, p.y, radius, p.bright > .83 ? 'rgb(244,255,255)' : 'rgb(1,251,255)', alpha);
+      }
+
+      if (pointer.active) {
+        ctx.globalAlpha = .7;
+        ctx.strokeStyle = 'rgba(1,251,255,.55)';
+        ctx.lineWidth = 1 * dpr;
+        ctx.beginPath();
+        ctx.arc(pointer.x, pointer.y, repelRadius * .22, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = 1;
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+  }
+}
+</script>
+</body>
+</html>
